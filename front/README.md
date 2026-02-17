@@ -1,73 +1,73 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+# 📋 Todo List Application
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Une application simple de gestion de tâches construite avec **NestJS** (backend), **React** (frontend) et **Material-UI** (UI).
 
-## React Compiler
+## 🎯 Fonctionnalités
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- ✅ Ajouter une tâche
+- ✅ Afficher toutes les tâches
+- ✅ Modifier une tâche
+- ✅ Supprimer une tâche
+- ✅ Interface utilisateur moderne avec Material-UI
 
-## Expanding the ESLint configuration
+## 🛠️ Architecture
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Framework**: React 18
+- **Build Tool**: Vite
+- **UI Library**: Material-UI (MUI)
+- **HTTP Client**: Axios
+- **Port**: 5173
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📦 Installation
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Prérequis
+- Node.js >= 20.0.0
+- npm >= 10.0.0
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+
+
+Le backend sera disponible à `http://localhost:3000`
+
+### Frontend
+
+```bash
+# Naviguer dans le dossier front
+cd front
+
+# Installer les dépendances
+npm install
+
+# Démarrer le serveur de développement
+npm run dev
+
+# Ou construire pour la production
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Le frontend sera disponible à `http://localhost:5173`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Features
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Task Entity
+Chaque tâche contient:
+- `id` - UUID unique
+- `title` - Titre de la tâche
+- `description` - Description complète
+- `date` - Date de la tâche
+- `createdAt` - Date de création (auto)
+- `updatedAt` - Date de dernière modification (auto)
+
+## Interface Utilisateur
+
+L'interface utilise Material-UI et inclut:
+- Une barre d'en-tête avec titre et bouton "Ajouter"
+- Une grille de cartes pour afficher les tâches
+- Un formulaire de dialogue pour créer/modifier les tâches
+- Icônes pour modifier et supprimer
+- Gestion des erreurs avec messages d'alerte
+
+## License
+
+MIT
