@@ -30,6 +30,7 @@ export class TasksService {
   }
 
   async update(id: string, updateTaskDto: UpdateTaskDto): Promise<Task> {
+    console.log('Updating task with ID:', id, 'Data:', updateTaskDto);
     await this.tasksRepository.update(id, updateTaskDto);
     return this.findOne(id);
   }

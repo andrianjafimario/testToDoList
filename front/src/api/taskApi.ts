@@ -37,7 +37,7 @@ export const taskApi = {
 
   // Update a task
   updateTask: async (id: number, task: Omit<Task, 'id'>): Promise<Task> => {
-    const response = await apiClient.put<Task>(`/tasks/${id}`, task);
+    const response = await apiClient.patch<Task>(`/tasks/${id}`, task);
     return response.data;
   },
 

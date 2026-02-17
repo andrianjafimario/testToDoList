@@ -5,6 +5,7 @@ import { taskApi } from './api/taskApi';
 import type { Task } from './api/taskApi';
 import { TaskForm } from './components/TaskForm';
 import './App.css';
+import { TaskList } from './components/TaskList';
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -127,7 +128,13 @@ function App() {
         </Button>
       </Box>
 
-      
+      <TaskList
+        tasks={tasks}
+        onEdit={handleEditTask}
+        onDelete={handleDeleteTask}
+        isLoading={isLoading}
+        error={error}
+      />
 
       <TaskForm
         open={openForm}
