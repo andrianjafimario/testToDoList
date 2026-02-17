@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -7,13 +7,17 @@ import {
   TextField,
   Button,
   Box,
-} from '@mui/material';
-import type { Task } from '../api/taskApi';
+} from "@mui/material";
+import type { Task } from "../api/taskApi";
+import { DatePicker } from "@mui/x-date-pickers";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 interface TaskFormProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (task: Omit<Task, 'id'>) => void;
+  onSubmit: (task: Omit<Task, "id">) => void;
   initialTask?: Task | null;
   isLoading?: boolean;
 }
@@ -25,10 +29,14 @@ export const TaskForm: React.FC<TaskFormProps> = ({
   initialTask,
   isLoading = false,
 }) => {
-  const [formData, setFormData] = useState<Omit<Task, 'id'>>({
-    title: '',
-    description: '',
-    date: '',
+  const [formData, setFormData] = useState<{
+    title: string;
+    description: string;
+    date: Dayjs | null;
+  }>({
+    title: "",
+    description: "",
+    date: null,
   });
 
   useEffect(() => {
@@ -36,13 +44,13 @@ export const TaskForm: React.FC<TaskFormProps> = ({
       setFormData({
         title: initialTask.title,
         description: initialTask.description,
-        date: initialTask.date,
+        date: dayjs(initialTask.date),
       });
     } else {
       setFormData({
-        title: '',
-        description: '',
-        date: '',
+        title: "",
+        description: "",
+        date: null,
       });
     }
   }, [initialTask, open]);
@@ -55,17 +63,38 @@ export const TaskForm: React.FC<TaskFormProps> = ({
     }));
   };
 
+  const handleDateChange = (date: Dayjs | null) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      date: date,
+    }));
+  };
+
   const handleSubmit = () => {
-   
-    onSubmit(formData);
+    if (formData.title.trim() === "") {
+      alert("Le titre est requis");
+      return;
+    }
+    if (formData.description.trim() === "") {
+      alert("La description est requise");
+      return;
+    }
+    if (!formData.date) {
+      alert("La date est requise");
+      return;
+    }
+    onSubmit({
+      ...formData,
+      date: formData.date.format("YYYY-MM-DD"),
+    });
     handleClose();
   };
 
   const handleClose = () => {
     setFormData({
-      title: '',
-      description: '',
-      date: '',
+      title: "",
+      description: "",
+      date: null,
     });
     onClose();
   };
@@ -73,10 +102,10 @@ export const TaskForm: React.FC<TaskFormProps> = ({
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
       <DialogTitle>
-        {initialTask ? 'Modifier la tâche' : 'Ajouter une nouvelle tâche'}
+        {initialTask ? "Modifier la tâche" : "Ajouter une nouvelle tâche"}
       </DialogTitle>
       <DialogContent>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 2 }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2, pt: 2 }}>
           <TextField
             label="Titre"
             name="title"
@@ -97,19 +126,20 @@ export const TaskForm: React.FC<TaskFormProps> = ({
             disabled={isLoading}
             required
           />
-          <TextField
-            label="Date"
-            name="date"
-            type="date"
-            value={formData.date}
-            onChange={handleChange}
-            fullWidth
-            InputLabelProps={{
-              shrink: true,
-            }}
-            disabled={isLoading}
-            required
-          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Date"
+              name="date"
+              value={formData.date}
+              onChange={handleDateChange}
+              disabled={isLoading}
+              slotProps={{
+                textField: {
+                  required: true,
+                },
+              }}
+            />
+          </LocalizationProvider>
         </Box>
       </DialogContent>
       <DialogActions>
@@ -122,7 +152,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({
           color="primary"
           disabled={isLoading}
         >
-          {initialTask ? 'Modifier' : 'Ajouter'}
+          {initialTask ? "Modifier" : "Ajouter"}
         </Button>
       </DialogActions>
     </Dialog>
