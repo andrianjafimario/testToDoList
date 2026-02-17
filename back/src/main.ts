@@ -6,13 +6,13 @@ async function bootstrap() {
   
   // Enable CORS for frontend
   app.enableCors({
-    origin: 'http://localhost:3001', // React frontend default port
+    origin: 'http://localhost:5173', // React frontend default port
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
 
   await app.listen(3000, () => {
-    console.log('Backend running on http://localhost:5173');
+    console.log('Backend running on http://localhost:3000');
   });
 }
 bootstrap();
